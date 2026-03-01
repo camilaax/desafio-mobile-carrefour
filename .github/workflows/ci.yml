@@ -71,6 +71,7 @@ jobs:
     name: iOS
     runs-on: macos-latest
     continue-on-error: true
+    timeout-minutes: 10
 
     steps:
       - name: Checkout

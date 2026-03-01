@@ -47,6 +47,8 @@ npm run report
 
 O relatório inclui resumo dos testes, screenshots das falhas, logs e informações do ambiente. Screenshots são capturados automaticamente em caso de falha.
 
+Na **CI**, o relatório é publicado no **GitHub Pages** após cada push na branch `main` (ou `master`). A URL fica em: **Settings → Pages** do repositório (ex.: `https://<org>.github.io/<repo>/`).
+
 ## Testes implementados
 
 Os cenários cobrem Login, Cadastro, Navegação e Formulários do native-demo-app, com validação de mensagens de erro.

@@ -12,7 +12,7 @@ export const config = {
       platformName: 'Android',
       'wdio:maxInstances': 1,
       'appium:deviceName': process.env.ANDROID_DEVICE || 'emulator-5554',
-      'appium:platformVersion': process.env.ANDROID_VERSION || '13.0',
+      'appium:platformVersion': process.env.ANDROID_VERSION || '14',
       'appium:orientation': 'PORTRAIT',
       'appium:automationName': 'UiAutomator2',
       'appium:app': join(

@@ -48,7 +48,7 @@ jobs:
       - name: Generate Allure report
         if: always()
         run: |
-          mkdir -p reports
+          mkdir -p reports/allure-results
           npx allure generate reports/allure-results -o reports/allure-report --clean || true
 
       - name: Upload reports
@@ -57,3 +57,28 @@ jobs:
         with:
           name: allure-reports
           path: reports/
+
+  deploy-report:
+    name: Deploy Allure to GitHub Pages
+    if: always() && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    needs: mobile-tests
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Download report
+        uses: actions/download-artifact@v4
+        with:
+          name: allure-reports
+
+      - name: Upload to GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: allure-reports/allure-report
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

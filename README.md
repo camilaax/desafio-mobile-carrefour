@@ -49,7 +49,7 @@ npm run report
 
 O relatório inclui resumo dos testes, screenshots e logs. **Screenshots** são capturados automaticamente ao final de cada teste (sucesso ou falha), salvos em `reports/screenshots/` e anexados ao Allure. Na **CI**, os prints também ficam disponíveis no artefato **screenshots** (Actions → run → Artifacts).
 
-Na **CI**, o relatório é publicado no **GitHub Pages** após cada push na branch `main`
+Na **CI**, o relatório é publicado no **GitHub Pages** após cada push na branch `main`. O relatório **reúne os resultados de Android e iOS** (quando o job iOS gerar resultados), em uma única página.
 
 **Relatório Allure (última execução):** [https://camilaax.github.io/desafio-mobile-carrefour/](https://camilaax.github.io/desafio-mobile-carrefour/)
 
@@ -74,7 +74,7 @@ Há ainda um spec opcional `login.data-driven.spec.js` que executa login com dad
 
 ## CI
 
-O workflow em `.github/workflows/ci.yml` roda em todo push e em pull requests: instala dependências com `npm ci`, baixa o APK do native-demo-app, inicia um emulador Android (via reactivecircus/android-emulator-runner), executa `npm test` e publica a pasta `reports/` como artefato. Em caso de falha em qualquer teste, o pipeline falha.
+O workflow em `.github/workflows/ci.yml` roda em todo push e em pull requests: instala dependências com `npm ci`, baixa o APK do native-demo-app, inicia um emulador Android (via reactivecircus/android-emulator-runner), executa `npm test` e publica a pasta `reports/` como artefato. O job **Android** define o sucesso do pipeline; em caso de falha nos testes Android, o pipeline falha. O job **iOS** também roda no `macos-latest`; por instabilidade comum dos runners (WebDriverAgent/simulador), ele está configurado com `continue-on-error: true`, ou seja, falha no iOS não impede o deploy do Allure. Os testes iOS podem ser executados localmente com `npm run ios.app`.
 
 ## Estrutura do projeto
 

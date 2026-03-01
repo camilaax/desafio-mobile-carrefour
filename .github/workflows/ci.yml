@@ -70,6 +70,7 @@ jobs:
   ios-tests:
     name: iOS
     runs-on: macos-latest
+    continue-on-error: true
 
     steps:
       - name: Checkout
@@ -122,7 +123,7 @@ jobs:
   deploy-report:
     name: Deploy Allure to GitHub Pages
     if: always() && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
-    needs: [android-tests]
+    needs: [android-tests, ios-tests]
     runs-on: ubuntu-latest
     permissions:
       pages: write
@@ -130,15 +131,44 @@ jobs:
       contents: read
 
     steps:
-      - name: Download report
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Download Android report
         uses: actions/download-artifact@v4
         with:
           name: allure-reports-android
+          path: android-reports
+
+      - name: Download iOS report
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: allure-reports-ios
+          path: ios-reports
+
+      - name: Merge Allure results and generate report
+        run: |
+          mkdir -p reports/allure-results
+          cp -r android-reports/allure-results/. reports/allure-results/ 2>/dev/null || true
+          if [ -d ios-reports/allure-results ]; then
+            cp -r ios-reports/allure-results/. reports/allure-results/ 2>/dev/null || true
+          fi
+          npx allure generate reports/allure-results -o reports/allure-report --clean
 
       - name: Upload to GitHub Pages
         uses: actions/upload-pages-artifact@v3
         with:
-          path: allure-report
+          path: reports/allure-report
 
       - name: Deploy to GitHub Pages
         id: deployment

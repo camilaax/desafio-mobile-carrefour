@@ -7,6 +7,9 @@ import { config as baseConfig } from './wdio.shared.local.appium.conf.js';
 export const config = {
   ...baseConfig,
   specs: ['../tests/specs/**/*.spec.js'],
+  maxWorkers: 1,
+  connectionRetryTimeout: 300000,
+  connectionRetryCount: 4,
   capabilities: [
     {
       platformName: 'iOS',
@@ -23,6 +26,9 @@ export const config = {
       'appium:newCommandTimeout': 240,
       'appium:webviewConnectTimeout': 20 * 1000,
       'appium:maxTypingFrequency': 30,
+      'appium:wdaLaunchTimeout': 180000,
+      'appium:wdaStartupRetries': 4,
+      'appium:wdaStartupRetryInterval': 30000,
     },
   ],
 };

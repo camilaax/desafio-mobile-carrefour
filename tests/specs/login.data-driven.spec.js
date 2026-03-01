@@ -17,9 +17,10 @@ const loginDataPath = path.join(
 const loginData = JSON.parse(
   fs.readFileSync(loginDataPath, 'utf-8')
 );
+const loginCredentials = loginData.login;
 
 describe('Login data-driven', () => {
-  loginData.forEach((data) => {
+  loginCredentials.forEach((data) => {
     it(`Login com ${data.description}`, async () => {
       await TabBar.waitForTabBarShown();
       await TabBar.openLogin();

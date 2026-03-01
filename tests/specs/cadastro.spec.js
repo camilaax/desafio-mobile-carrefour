@@ -1,6 +1,7 @@
 /**
  * Cenários 03, 04: Cadastro e mensagens de erro.
  */
+import { expect } from 'chai';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import TabBar from '../pageobjects/TabBar.js';
@@ -24,7 +25,7 @@ describe('Cadastro', () => {
 
     await NativeAlert.waitForIsShown();
     const alertText = await NativeAlert.text();
-    expect(alertText.toLowerCase()).toContain('signed up');
+    expect(alertText.toLowerCase()).to.include('signed up');
 
     await NativeAlert.tapOnButtonWithText('OK');
     await NativeAlert.waitForIsShown(false);
@@ -38,7 +39,7 @@ describe('Cadastro', () => {
     await LoginPage.waitForValidationFeedback();
 
     const hasError = await LoginPage.isAnyValidationErrorDisplayed();
-    expect(hasError).toBe(true);
+    expect(hasError).to.be.true;
 
     await NativeAlert.waitForIsShown(false);
   });

@@ -2,7 +2,18 @@
 
 Requisito: Utilizando o aplicativo native-demo-app do WebDriverIO, desenvolver uma automação que cubra as principais funcionalidades do app: Login/Cadastro, Navegação entre telas, Preenchimento de formulários e Verificação de mensagens de erro. O projeto utiliza **JavaScript** , padrão Page Object, relatórios Allure e integração com CI/CD.
 
+## Stack de tecnologias
 
+| Camada | Tecnologia |
+|--------|------------|
+| Linguagem | JavaScript |
+| Framework | WebdriverIO |
+| Biblioteca | Appium |
+| Gerenciador de testes | Mocha |
+| Assertions | Chai |
+| Relatórios | Allure Report |
+| CI/CD | GitHub Actions |
+| Controle de versão | Git |
 
 ## Configuração do ambiente
 
@@ -65,7 +76,7 @@ Os cenários cobrem Login, Cadastro, Navegação e Formulários do native-demo-a
 | 04 | Cadastro | Cadastro com confirmação de senha diferente e verificação de mensagem de erro |
 | 05 | Navegação | Navegação entre tabs (Home, WebView, Login, Forms, Swipe, Drag) |
 | 06 | Navegação | Acesso à tela Forms via tab bar |
-| 07 | Formulários | Preenchimento do formulário com input, switch e dropdown |
+| 07 | Formulários | Preenchimento do formulário com input,switch e dropdown |
 | 08 | Formulários | Validação de campo obrigatório (botão inativo não dispara alerta) |
 | 09 | Formulários | Submissão do formulário e verificação de feedback (botão ativo) |
 | 10 | Mensagens | Verificação de mensagem de erro em login com campos vazios |

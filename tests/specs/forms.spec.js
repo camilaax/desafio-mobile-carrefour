@@ -1,6 +1,7 @@
 /**
  * Cenários 07, 08, 09: Formulários e validações.
  */
+import { expect } from 'chai';
 import TabBar from '../pageobjects/TabBar.js';
 import FormsPage from '../pageobjects/FormsPage.js';
 import Picker from '../pageobjects/Picker.js';
@@ -17,15 +18,15 @@ describe('Formulários', () => {
     const text = 'Texto de teste';
     await FormsPage.setInputText(text);
     const textDisplayed = await FormsPage.verifyInputTextDisplayed(text);
-    expect(textDisplayed).toBe(true);
+    expect(textDisplayed).to.be.true;
 
-    expect(await FormsPage.isSwitchActive()).toBe(false);
+    expect(await FormsPage.isSwitchActive()).to.be.false;
     await FormsPage.tapOnSwitch();
-    expect(await FormsPage.isSwitchActive()).toBe(true);
+    expect(await FormsPage.isSwitchActive()).to.be.true;
 
     await FormsPage.tapOnDropDown();
     await Picker.selectValue('This app is awesome');
-    expect(await FormsPage.getDropDownText()).toContain('This app is awesome');
+    expect(await FormsPage.getDropDownText()).to.include('This app is awesome');
 
     await FormsPage.ensureKeyboardClosed();
   });
@@ -43,7 +44,7 @@ describe('Formulários', () => {
 
     await NativeAlert.waitForIsShown();
     const alertText = await NativeAlert.text();
-    expect(alertText).toContain('This button is');
+    expect(alertText).to.include('This button is');
 
     await NativeAlert.tapOnButtonWithText('OK');
     await NativeAlert.waitForIsShown(false);

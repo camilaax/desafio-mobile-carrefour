@@ -2,6 +2,7 @@
  * Cenário data-driven: Login com dados do JSON.
  * Opcional - demonstra data-driven testing.
  */
+import { expect } from 'chai';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import TabBar from '../pageobjects/TabBar.js';
@@ -36,7 +37,7 @@ describe('Login data-driven', () => {
 
       await NativeAlert.waitForIsShown();
       const alertText = await NativeAlert.text();
-      expect(alertText).toContain('Success');
+      expect(alertText).to.include('Success');
 
       await NativeAlert.tapOnButtonWithText('OK');
       await NativeAlert.waitForIsShown(false);

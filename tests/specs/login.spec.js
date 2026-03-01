@@ -1,6 +1,7 @@
 /**
  * Cenários 01, 02, 10: Login e mensagens de erro.
  */
+import { expect } from 'chai';
 import TabBar from '../pageobjects/TabBar.js';
 import LoginPage from '../pageobjects/LoginPage.js';
 import NativeAlert from '../pageobjects/NativeAlert.js';
@@ -18,7 +19,7 @@ describe('Login e Cadastro', () => {
 
     await NativeAlert.waitForIsShown();
     const alertText = await NativeAlert.text();
-    expect(alertText).toContain('Success');
+    expect(alertText).to.include('Success');
 
     await NativeAlert.tapOnButtonWithText('OK');
     await NativeAlert.waitForIsShown(false);
@@ -31,7 +32,7 @@ describe('Login e Cadastro', () => {
     await LoginPage.waitForValidationFeedback();
 
     const hasError = await LoginPage.isAnyValidationErrorDisplayed();
-    expect(hasError).toBe(true);
+    expect(hasError).to.be.true;
 
     await NativeAlert.waitForIsShown(false);
   });
@@ -43,7 +44,7 @@ describe('Login e Cadastro', () => {
     await LoginPage.waitForValidationFeedback();
 
     const hasError = await LoginPage.isAnyValidationErrorDisplayed();
-    expect(hasError).toBe(true);
+    expect(hasError).to.be.true;
 
     await NativeAlert.waitForIsShown(false);
   });

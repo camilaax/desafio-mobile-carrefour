@@ -1,6 +1,7 @@
 /**
  * Cenários 05, 06: Navegação entre telas.
  */
+import { expect } from 'chai';
 import TabBar from '../pageobjects/TabBar.js';
 import HomePage from '../pageobjects/HomePage.js';
 import FormsPage from '../pageobjects/FormsPage.js';
@@ -34,6 +35,6 @@ describe('Navegação', () => {
     await FormsPage.waitForIsShown(true);
 
     const isFormsVisible = await FormsPage.isDisplayed();
-    expect(isFormsVisible).toBe(true);
+    expect(isFormsVisible).to.be.true;
   });
 });

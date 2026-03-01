@@ -35,8 +35,8 @@ export const config = {
         const buffer = Buffer.from(screenshot, 'base64');
         const allure = (await import('@wdio/allure-reporter')).default;
         allure.addAttachment('Screenshot da falha', buffer, 'image/png');
-      } catch {
-        // Ignora falha ao capturar screenshot
+      } catch (e) {
+        console.warn('Falha ao capturar screenshot:', e?.message ?? e);
       }
     }
   },

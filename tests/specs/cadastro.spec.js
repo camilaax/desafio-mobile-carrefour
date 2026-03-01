@@ -20,7 +20,6 @@ describe('Cadastro', () => {
 
   it('03 - Cadastro com dados válidos', async () => {
     await LoginPage.tapOnSignUpContainerButton();
-    await driver.pause(500);
     await LoginPage.submitSignUpForm(signUp.valid.email, signUp.valid.password);
 
     await NativeAlert.waitForIsShown();
@@ -36,7 +35,7 @@ describe('Cadastro', () => {
     const { email, password, confirmPassword } = signUp.passwordMismatch;
     await LoginPage.submitSignUpForm(email, password, confirmPassword);
 
-    await driver.pause(1500);
+    await LoginPage.waitForValidationFeedback();
 
     const hasError = await LoginPage.isAnyValidationErrorDisplayed();
     expect(hasError).toBe(true);

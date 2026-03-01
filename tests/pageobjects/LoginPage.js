@@ -50,6 +50,7 @@ class LoginPage extends AppScreen {
 
   async tapOnSignUpContainerButton() {
     await this.signUpContainerButton.click();
+    await driver.pause(500);
   }
 
   async submitLoginForm(username, password) {
@@ -142,6 +143,11 @@ class LoginPage extends AppScreen {
     const hasPasswordError = await this.isPasswordErrorDisplayed();
     const hasConfirmationError = await this.isConfirmationErrorDisplayed();
     return hasEmailError || hasPasswordError || hasConfirmationError;
+  }
+
+  /** Aguarda a exibição das mensagens de validação (encapsula pause). */
+  async waitForValidationFeedback() {
+    await driver.pause(1500);
   }
 }
 

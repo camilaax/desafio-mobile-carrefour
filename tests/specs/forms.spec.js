@@ -15,8 +15,7 @@ describe('Formulários', () => {
 
   it('07 - Preenchimento do formulário com input, switch e dropdown', async () => {
     const text = 'Texto de teste';
-    await FormsPage.input.setValue(text);
-    await driver.pause(400);
+    await FormsPage.setInputText(text);
     const textDisplayed = await FormsPage.verifyInputTextDisplayed(text);
     expect(textDisplayed).toBe(true);
 
@@ -28,16 +27,13 @@ describe('Formulários', () => {
     await Picker.selectValue('This app is awesome');
     expect(await FormsPage.getDropDownText()).toContain('This app is awesome');
 
-    if (await driver.isKeyboardShown()) {
-      await FormsPage.tapOnInputTextResult();
-    }
+    await FormsPage.ensureKeyboardClosed();
   });
 
   it('08 - Validação de campo obrigatório (botão inativo não dispara alerta)', async () => {
     await NativeAlert.waitForIsShown(false);
 
     await FormsPage.tapOnInActiveButton();
-    await driver.pause(1000);
 
     await NativeAlert.waitForIsShown(false);
   });

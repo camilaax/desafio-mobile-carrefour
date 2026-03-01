@@ -24,6 +24,19 @@ class FormsPage extends AppScreen {
     return $('~input-text-result');
   }
 
+  /** Define o texto do campo de input (encapsula o elemento). */
+  async setInputText(text) {
+    await this.input.setValue(text);
+    await driver.pause(400);
+  }
+
+  /** Fecha o teclado se estiver visível (encapsula lógica driver). */
+  async ensureKeyboardClosed() {
+    if (await driver.isKeyboardShown()) {
+      await this.tapOnInputTextResult();
+    }
+  }
+
   async verifyInputTextDisplayed(expectedText) {
     try {
       const selector = driver.isAndroid
@@ -95,6 +108,7 @@ class FormsPage extends AppScreen {
       scrollableElement: await this.screen,
     });
     await this.inActiveButton.click();
+    await driver.pause(1000);
   }
 
   async isSwitchActive() {
@@ -116,6 +130,11 @@ class FormsPage extends AppScreen {
     if (switchOn !== isActive) {
       await this.tapOnSwitch();
     }
+  }
+
+  /** Indica se a tela de formulários está visível (evita expor .screen no spec). */
+  async isDisplayed() {
+    return await this.screen.isDisplayed();
   }
 }
 

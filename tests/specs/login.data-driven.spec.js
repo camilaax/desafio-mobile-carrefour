@@ -25,10 +25,10 @@ describe('Login data-driven', () => {
       await TabBar.waitForTabBarShown();
       await TabBar.openLogin();
       try {
-        await LoginPage.screen.waitForDisplayed({ timeout: 15000 });
+        await LoginPage.waitForIsShown(true);
       } catch {
         await TabBar.openLogin();
-        await LoginPage.screen.waitForDisplayed({ timeout: 15000 });
+        await LoginPage.waitForIsShown(true);
       }
 
       await LoginPage.tapOnLoginContainerButton();

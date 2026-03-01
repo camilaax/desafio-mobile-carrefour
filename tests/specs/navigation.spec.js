@@ -15,19 +15,15 @@ describe('Navegação', () => {
     await HomePage.waitForIsShown(true);
 
     await TabBar.openWebView();
-    await driver.pause(500);
 
     await TabBar.openLogin();
-    await driver.pause(500);
 
     await TabBar.openForms();
     await FormsPage.waitForIsShown(true);
 
     await TabBar.openSwipe();
-    await driver.pause(500);
 
     await TabBar.openDrag();
-    await driver.pause(500);
 
     await TabBar.openHome();
     await HomePage.waitForIsShown(true);
@@ -37,7 +33,7 @@ describe('Navegação', () => {
     await TabBar.openForms();
     await FormsPage.waitForIsShown(true);
 
-    const isFormsVisible = await FormsPage.screen.isDisplayed();
+    const isFormsVisible = await FormsPage.isDisplayed();
     expect(isFormsVisible).toBe(true);
   });
 });

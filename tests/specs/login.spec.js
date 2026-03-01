@@ -28,7 +28,7 @@ describe('Login e Cadastro', () => {
     await LoginPage.tapOnLoginContainerButton();
     await LoginPage.submitLoginForm('invalid-email', '123');
 
-    await driver.pause(1500);
+    await LoginPage.waitForValidationFeedback();
 
     const hasError = await LoginPage.isAnyValidationErrorDisplayed();
     expect(hasError).toBe(true);
@@ -40,7 +40,7 @@ describe('Login e Cadastro', () => {
     await LoginPage.tapOnLoginContainerButton();
     await LoginPage.submitLoginFormEmpty();
 
-    await driver.pause(1500);
+    await LoginPage.waitForValidationFeedback();
 
     const hasError = await LoginPage.isAnyValidationErrorDisplayed();
     expect(hasError).toBe(true);

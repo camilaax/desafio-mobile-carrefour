@@ -8,10 +8,12 @@ export default class TabBar {
 
   static async openWebView() {
     await $('~Webview').click();
+    await driver.pause(500);
   }
 
   static async openLogin() {
     await $('~Login').click();
+    await driver.pause(500);
   }
 
   static async openForms() {
@@ -20,10 +22,12 @@ export default class TabBar {
 
   static async openSwipe() {
     await $('~Swipe').click();
+    await driver.pause(500);
   }
 
   static async openDrag() {
     await $('~Drag').click();
+    await driver.pause(500);
   }
 
   static async waitForTabBarShown() {

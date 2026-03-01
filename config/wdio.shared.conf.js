@@ -36,10 +36,12 @@ export const config = {
       const path = await import('node:path');
       const dir = path.join(process.cwd(), 'reports', 'screenshots');
       fs.mkdirSync(dir, { recursive: true });
-      const descricao = (context.title || 'test').trim();
+
+      const descricao = (test?.title || context?.title || 'teste').trim();
       const statusLabel = passed ? 'PASSOU' : 'FALHOU';
-      const safeName = descricao.replace(/[/\\:*?"<>|]/g, '-').replace(/\s+/g, '-').slice(0, 60);
-      const filename = `${safeName}-${statusLabel}-${Date.now()}.png`;
+      const dataHora = new Date().toISOString().slice(0, 19).replace(/[-:T]/g, '-');
+      const safeName = descricao.replace(/[/\\:*?"<>|]/g, '-').replace(/\s+/g, '-').slice(0, 50);
+      const filename = `${safeName}-${statusLabel}-${dataHora}.png`;
       const filepath = path.join(dir, filename);
       fs.writeFileSync(filepath, buffer);
 

@@ -93,7 +93,7 @@ jobs:
       - name: Run mobile tests on iOS simulator
         env:
           IOS_DEVICE: "iPhone 15"
-          IOS_VERSION: "17.2"
+          IOS_VERSION: "18.5"
           IOS_APP: "ios.simulator.wdio.native.app.v2.0.0.zip"
         run: |
           mkdir -p reports/allure-results reports/screenshots

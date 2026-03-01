@@ -36,14 +36,15 @@ export const config = {
       const path = await import('node:path');
       const dir = path.join(process.cwd(), 'reports', 'screenshots');
       fs.mkdirSync(dir, { recursive: true });
-      const safeName = (context.title || 'test').replace(/[^a-zA-Z0-9-_]/g, '-').slice(0, 50);
-      const status = passed ? 'passed' : 'failed';
-      const filename = `${safeName}-${status}-${Date.now()}.png`;
+      const descricao = (context.title || 'test').trim();
+      const statusLabel = passed ? 'PASSOU' : 'FALHOU';
+      const safeName = descricao.replace(/[/\\:*?"<>|]/g, '-').replace(/\s+/g, '-').slice(0, 60);
+      const filename = `${safeName}-${statusLabel}-${Date.now()}.png`;
       const filepath = path.join(dir, filename);
       fs.writeFileSync(filepath, buffer);
 
       const allure = (await import('@wdio/allure-reporter')).default;
-      const label = passed ? 'Screenshot (final)' : 'Screenshot da falha';
+      const label = `[${statusLabel}] ${descricao}`;
       allure.addAttachment(label, buffer, 'image/png');
     } catch (e) {
       console.warn('Falha ao capturar screenshot:', e?.message ?? e);

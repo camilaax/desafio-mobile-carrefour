@@ -43,6 +43,7 @@ jobs:
           script: |
             export ANDROID_DEVICE=emulator-5554
             export ANDROID_APP=android.wdio.native.app.v2.0.0.apk
+            mkdir -p reports/allure-results reports/screenshots
             npm test
 
       - name: Generate Allure report
@@ -57,6 +58,13 @@ jobs:
         with:
           name: allure-reports
           path: reports/
+
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots
+          path: reports/screenshots/
 
   deploy-report:
     name: Deploy Allure to GitHub Pages

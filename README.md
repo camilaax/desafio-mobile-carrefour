@@ -45,7 +45,7 @@ Após a execução, os resultados do Allure ficam em `reports/allure-results/`. 
 npm run report
 ```
 
-O relatório inclui resumo dos testes, screenshots das falhas, logs e informações do ambiente. Screenshots são capturados automaticamente em caso de falha.
+O relatório inclui resumo dos testes, screenshots e logs. **Screenshots** são capturados automaticamente ao final de cada teste (sucesso ou falha), salvos em `reports/screenshots/` e anexados ao Allure. Na **CI**, os prints também ficam disponíveis no artefato **screenshots** (Actions → run → Artifacts).
 
 Na **CI**, o relatório é publicado no **GitHub Pages** após cada push na branch `main` (ou `master`). A URL fica em: **Settings → Pages** do repositório (ex.: `https://<org>.github.io/<repo>/`).
 

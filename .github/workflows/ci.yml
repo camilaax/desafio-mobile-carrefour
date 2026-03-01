@@ -77,7 +77,7 @@ jobs:
       - name: Upload to GitHub Pages
         uses: actions/upload-pages-artifact@v3
         with:
-          path: allure-reports/allure-report
+          path: allure-report
 
       - name: Deploy to GitHub Pages
         id: deployment

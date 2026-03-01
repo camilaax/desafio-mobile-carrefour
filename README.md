@@ -1,13 +1,15 @@
 # Desafio de Automação de Testes Mobile
 
-Requisito: Utilizando o aplicativo native-demo-app do WebDriverIO, desenvolver uma automação que cubra as principais funcionalidades do app: Login/Cadastro, Navegação entre telas, Preenchimento de formulários e Verificação de mensagens de erro. O projeto utiliza **JavaScript** (ES modules), padrão Page Object, relatórios Allure e integração com CI/CD.
+Requisito: Utilizando o aplicativo native-demo-app do WebDriverIO, desenvolver uma automação que cubra as principais funcionalidades do app: Login/Cadastro, Navegação entre telas, Preenchimento de formulários e Verificação de mensagens de erro. O projeto utiliza **JavaScript** , padrão Page Object, relatórios Allure e integração com CI/CD.
+
+
 
 ## Configuração do ambiente
 
 - **Node.js** 18 ou superior (recomendado 20)
 - **npm** 9 ou superior
 - **Appium** 3.x (instalado globalmente ou via `@wdio/appium-service`)
-- **Android SDK** (para emulador Android). Defina `ANDROID_HOME` ou `ANDROID_SDK_ROOT` apontando para o diretório do SDK. No macOS com Android Studio, o caminho padrão é `~/Library/Android/sdk`. Os scripts `npm test` e `npm run android.app` usam esse caminho automaticamente se a variável não estiver definida. 
+- **Android SDK** (para emulador Android). Defina `ANDROID_HOME` ou `ANDROID_SDK_ROOT`. Os scripts `npm test` e `npm run android.app` usam esse caminho automaticamente se a variável não estiver definida. 
 
 Clone o repositório e instale as dependências:
 

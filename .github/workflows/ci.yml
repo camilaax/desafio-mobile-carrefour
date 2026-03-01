@@ -6,7 +6,8 @@ on:
   pull_request:
 
 jobs:
-  mobile-tests:
+  android-tests:
+    name: Android
     runs-on: ubuntu-latest
 
     steps:
@@ -56,20 +57,72 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: allure-reports
+          name: allure-reports-android
           path: reports/
 
       - name: Upload screenshots
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: screenshots
+          name: screenshots-android
+          path: reports/screenshots/
+
+  ios-tests:
+    name: iOS
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Download iOS app
+        run: |
+          mkdir -p apps
+          curl -L -o apps/ios.simulator.wdio.native.app.v2.0.0.zip \
+            "https://github.com/webdriverio/native-demo-app/releases/download/v2.0.0/ios.simulator.wdio.native.app.v2.0.0.zip"
+
+      - name: Run mobile tests on iOS simulator
+        env:
+          IOS_DEVICE: "iPhone 15"
+          IOS_VERSION: "17.2"
+          IOS_APP: "ios.simulator.wdio.native.app.v2.0.0.zip"
+        run: |
+          mkdir -p reports/allure-results reports/screenshots
+          npm run ios.app
+
+      - name: Generate Allure report
+        if: always()
+        run: |
+          mkdir -p reports/allure-results
+          npx allure generate reports/allure-results -o reports/allure-report --clean || true
+
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-reports-ios
+          path: reports/
+
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots-ios
           path: reports/screenshots/
 
   deploy-report:
     name: Deploy Allure to GitHub Pages
     if: always() && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
-    needs: mobile-tests
+    needs: [android-tests]
     runs-on: ubuntu-latest
     permissions:
       pages: write
@@ -80,7 +133,7 @@ jobs:
       - name: Download report
         uses: actions/download-artifact@v4
         with:
-          name: allure-reports
+          name: allure-reports-android
 
       - name: Upload to GitHub Pages
         uses: actions/upload-pages-artifact@v3

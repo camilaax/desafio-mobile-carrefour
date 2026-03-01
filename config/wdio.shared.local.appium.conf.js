@@ -17,7 +17,10 @@ export const config = {
       },
     ],
   ],
-  before: async () => {
+  before: async function (capabilities, specs) {
+    if (typeof baseConfig.before === 'function') {
+      await baseConfig.before(capabilities, specs);
+    }
     if (driver.isAndroid) {
       await driver.updateSettings({
         waitForSelectorTimeout: 3 * 1000,

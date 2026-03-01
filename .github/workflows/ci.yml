@@ -1,0 +1,59 @@
+name: Mobile Tests CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+jobs:
+  mobile-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Download Android app
+        run: |
+          mkdir -p apps
+          curl -L -o apps/android.wdio.native.app.v2.0.0.apk \
+            "https://github.com/webdriverio/native-demo-app/releases/download/v2.0.0/android.wdio.native.app.v2.0.0.apk"
+
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Run mobile tests on Android emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          profile: pixel_7_pro
+          arch: x86_64
+          script: |
+            export ANDROID_DEVICE=emulator-5554
+            export ANDROID_APP=android.wdio.native.app.v2.0.0.apk
+            npm test
+
+      - name: Generate Allure report
+        if: always()
+        run: |
+          mkdir -p reports
+          npx allure generate reports/allure-results -o reports/allure-report --clean || true
+
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-reports
+          path: reports/

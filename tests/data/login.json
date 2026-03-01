@@ -1,0 +1,12 @@
+[
+  {
+    "username": "test@webdriver.io",
+    "password": "Test1234!",
+    "description": "Credenciais válidas"
+  },
+  {
+    "username": "outro@valido.com",
+    "password": "OutraSenha123!",
+    "description": "Outras credenciais válidas"
+  }
+]

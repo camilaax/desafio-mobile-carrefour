@@ -5,12 +5,12 @@
 
 export const config = {
   specs: [],
-  logLevel: 'info',
+  logLevel: 'warn',
   bail: 0,
   baseUrl: '',
-  waitforTimeout: 45000,
-  connectionRetryTimeout: 120000,
-  connectionRetryCount: 3,
+  waitforTimeout: 15000,
+  connectionRetryTimeout: 60000,
+  connectionRetryCount: 2,
   services: [],
   framework: 'mocha',
   reporters: [
@@ -19,14 +19,14 @@ export const config = {
       'allure',
       {
         outputDir: 'reports/allure-results',
-        disableWebdriverStepsReporting: false,
+        disableWebdriverStepsReporting: true,
         disableWebdriverScreenshotsReporting: false,
       },
     ],
   ],
   mochaOpts: {
     ui: 'bdd',
-    timeout: 3 * 60 * 1000,
+    timeout: 90 * 1000,
   },
   before: async function (capabilities) {
     const allure = (await import('@wdio/allure-reporter')).default;

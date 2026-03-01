@@ -11,7 +11,7 @@ class Picker {
   static async waitForIsShown(isShown = true) {
     const selector = driver.isIOS ? SELECTORS.IOS_PICKERWHEEL : SELECTORS.ANDROID_LISTVIEW;
     await $(selector).waitForExist({
-      timeout: 11000,
+      timeout: 5000,
       reverse: !isShown,
     });
   }

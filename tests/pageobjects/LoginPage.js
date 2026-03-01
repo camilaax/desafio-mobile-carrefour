@@ -50,7 +50,7 @@ class LoginPage extends AppScreen {
 
   async tapOnSignUpContainerButton() {
     await this.signUpContainerButton.click();
-    await driver.pause(500);
+    await this.email.waitForDisplayed({ timeout: 3000 });
   }
 
   async submitLoginForm(username, password) {
@@ -58,8 +58,7 @@ class LoginPage extends AppScreen {
     await this.password.setValue(password);
 
     if (driver.isIOS) {
-      try { await driver.hideKeyboard(); } catch (e) { console.warn('Teclado já fechado ou indisponível:', e?.message ?? e); }
-      await driver.pause(300);
+      try { await driver.hideKeyboard(); } catch (e) { /* teclado já fechado */ }
     } else if (await driver.isKeyboardShown()) {
       await $('~Login-screen').click();
     }
@@ -75,12 +74,11 @@ class LoginPage extends AppScreen {
     await this.password.setValue(password);
 
     const rpField = await this.repeatPassword;
-    await rpField.waitForExist({ timeout: 5000 });
+    await rpField.waitForExist({ timeout: 3000 });
     await rpField.setValue(repeatPassword ?? password);
 
     if (driver.isIOS) {
-      try { await driver.hideKeyboard(); } catch (e) { console.warn('Teclado já fechado ou indisponível:', e?.message ?? e); }
-      await driver.pause(300);
+      try { await driver.hideKeyboard(); } catch (e) { /* teclado já fechado */ }
     } else if (await driver.isKeyboardShown()) {
       await $('~Login-screen').click();
     }
@@ -88,7 +86,6 @@ class LoginPage extends AppScreen {
     await this.signUpButton.scrollIntoView({
       scrollableElement: await this.screen,
     });
-    await driver.pause(300);
     await this.signUpButton.click();
   }
 
@@ -145,9 +142,16 @@ class LoginPage extends AppScreen {
     return hasEmailError || hasPasswordError || hasConfirmationError;
   }
 
-  /** Aguarda a exibição das mensagens de validação (encapsula pause). */
+  /** Aguarda a exibição das mensagens de validação. */
   async waitForValidationFeedback() {
-    await driver.pause(1500);
+    const selector = driver.isAndroid
+      ? '//*[contains(@text, "valid email") or contains(@text, "8 characters") or contains(@text, "same password")]'
+      : '-ios predicate string:label CONTAINS "valid email" OR label CONTAINS "8 characters" OR label CONTAINS "same password"';
+    try {
+      await $(selector).waitForDisplayed({ timeout: 5000 });
+    } catch {
+      await driver.pause(500);
+    }
   }
 }
 

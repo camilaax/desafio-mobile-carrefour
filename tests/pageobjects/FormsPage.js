@@ -27,7 +27,7 @@ class FormsPage extends AppScreen {
   /** Define o texto do campo de input (encapsula o elemento). */
   async setInputText(text) {
     await this.input.setValue(text);
-    await driver.pause(400);
+    await this.inputTextResult.waitForExist({ timeout: 3000 });
   }
 
   /** Fecha o teclado se estiver visível (encapsula lógica driver). */
@@ -108,7 +108,6 @@ class FormsPage extends AppScreen {
       scrollableElement: await this.screen,
     });
     await this.inActiveButton.click();
-    await driver.pause(1000);
   }
 
   async isSwitchActive() {

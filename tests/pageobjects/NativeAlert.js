@@ -2,8 +2,8 @@
  * Componente para interação com alertas (iOS/Android).
  * 
  */
-const ALERT_TIMEOUT = 8000;
-const ALERT_GONE_TIMEOUT = 2000;
+const ALERT_TIMEOUT = 5000;
+const ALERT_GONE_TIMEOUT = 1500;
 
 const SELECTORS = {
   ANDROID: {
@@ -22,16 +22,16 @@ const SELECTORS = {
 
 const ANDROID_ALERT_TEXTS = [
   { text: 'Success', timeout: ALERT_TIMEOUT },
-  { text: 'Signed Up!', timeout: 3000 },
-  { text: 'Signed Up', timeout: 2000 },
-  { text: 'This button is', timeout: 2000 },
+  { text: 'Signed Up!', timeout: 2000 },
+  { text: 'Signed Up', timeout: 1500 },
+  { text: 'This button is', timeout: 1500 },
 ];
 
 const IOS_ALERT_TEXTS = [
   { text: 'you successfully', timeout: ALERT_TIMEOUT },
-  { text: 'success', timeout: 5000 },
-  { text: 'signed up', timeout: 3000 },
-  { text: 'This button is', timeout: 2000 },
+  { text: 'success', timeout: 3000 },
+  { text: 'signed up', timeout: 2000 },
+  { text: 'This button is', timeout: 1500 },
 ];
 
 class NativeAlert {
@@ -57,41 +57,23 @@ class NativeAlert {
     } else {
       if (isShown) {
         try {
-          await $(SELECTORS.IOS.ALERT).waitForExist({ timeout: 2000, reverse: false });
+          await $(SELECTORS.IOS.ALERT).waitForExist({ timeout: ALERT_TIMEOUT, reverse: false });
           return;
         } catch {
-          try {
-            await $(SELECTORS.IOS.BUTTON_OK).waitForExist({ timeout: ALERT_TIMEOUT, reverse: false });
-            return;
-          } catch (e) {
-            let lastErr = e;
-            for (const { text, timeout } of IOS_ALERT_TEXTS) {
-              const sel = SELECTORS.IOS.alertByLabel(text);
-              try {
-                await $(sel).waitForExist({ timeout, reverse: false });
-                return;
-              } catch (err) {
-                lastErr = err;
-              }
+          let lastErr;
+          for (const { text, timeout } of IOS_ALERT_TEXTS) {
+            const sel = SELECTORS.IOS.alertByLabel(text);
+            try {
+              await $(sel).waitForExist({ timeout: Math.min(timeout, 2000), reverse: false });
+              return;
+            } catch (err) {
+              lastErr = err;
             }
-            for (const { text, timeout } of IOS_ALERT_TEXTS) {
-              const sel = SELECTORS.IOS.staticTextWith(text);
-              try {
-                await $(sel).waitForExist({ timeout: Math.min(timeout, 3000), reverse: false });
-                return;
-              } catch {
-                // next
-              }
-            }
-            throw lastErr;
           }
+          throw lastErr;
         }
       } else {
         await $(SELECTORS.IOS.ALERT).waitForExist({ timeout: ALERT_GONE_TIMEOUT, reverse: true }).catch(() => { });
-        await $(SELECTORS.IOS.BUTTON_OK).waitForExist({ timeout: ALERT_GONE_TIMEOUT, reverse: true }).catch(() => { });
-        for (const { text } of IOS_ALERT_TEXTS) {
-          await $(SELECTORS.IOS.alertByLabel(text)).waitForExist({ timeout: ALERT_GONE_TIMEOUT, reverse: true }).catch(() => { });
-        }
       }
     }
   }
